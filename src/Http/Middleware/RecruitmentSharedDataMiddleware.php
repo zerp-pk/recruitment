@@ -69,10 +69,10 @@ class RecruitmentSharedDataMiddleware
         $settings = RecruitmentSetting::where('created_by', $userId)->pluck('value', 'key');
 
         return [
-            'logo_dark' => $settings['logo_dark'] ?? 'packages/workdo/Recruitment/src/Resources/images/logo.png',
-            'favicon' => $settings['favicon'] ?? 'packages/workdo/Recruitment/src/Resources/images/favicon.png',
+            'logo_dark' => $settings['logo_dark'] ?? 'packages/local/Recruitment/src/Resources/images/logo.png',
+            'favicon' => $settings['favicon'] ?? 'packages/local/Recruitment/src/Resources/images/favicon.png',
             'title_text' => $settings['title_text'] ?? 'Careers',
-            'footer_text' => $settings['footer_text'] ?? '© ' . date('Y') . ' WorkDo. All rights reserved.',
+            'footer_text' => $settings['footer_text'] ?? '© ' . date('Y') . ' Zerp. All rights reserved.',
         ];
     }
 }

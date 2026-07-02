@@ -10,7 +10,7 @@ export default function FrontendFooter() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
                     <p className="text-gray-400 text-sm">
-                        {settings?.footer?.footer_text || `© ${new Date().getFullYear()} WorkDo. All rights reserved.`}
+                        {settings?.footer?.footer_text || `© ${new Date().getFullYear()} Zerp. All rights reserved.`}
                     </p>
                 </div>
             </div>

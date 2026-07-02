@@ -40,8 +40,8 @@ class RecruitmentSettingController extends Controller
 
             return Inertia::render('Recruitment/SystemSetup/BrandSettings/Index', [
                 'settings' => [
-                    'logo_dark' => $settings['logo_dark'] ?? 'packages/workdo/Recruitment/src/Resources/images/logo.png',
-                    'favicon' => $settings['favicon'] ?? 'packages/workdo/Recruitment/src/Resources/images/favicon.png',
+                    'logo_dark' => $settings['logo_dark'] ?? 'packages/local/Recruitment/src/Resources/images/logo.png',
+                    'favicon' => $settings['favicon'] ?? 'packages/local/Recruitment/src/Resources/images/favicon.png',
                     'titleText' => $settings['title_text'] ?? '',
                     'footerText' => $settings['footer_text'] ?? ''
                 ],

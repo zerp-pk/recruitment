@@ -91,7 +91,7 @@ class EmailTemplatesSeeder extends Seeder
             {
                 $emailtemplate = EmailTemplate::create([
                     'name' => $eTemp,
-                    'from' => !empty(env('APP_NAME')) ? env('APP_NAME') : 'ERPGo SaaS',
+                    'from' => !empty(env('APP_NAME')) ? env('APP_NAME') : 'Zerp',
                     'module_name' => 'Recruitment',
                     'created_by' => $admin->id,
                     'creator_id' => $admin->id,

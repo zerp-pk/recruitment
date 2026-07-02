@@ -22,7 +22,7 @@ class DemoRecruitmentSettingSeeder extends Seeder
             ],
             [
                 'key' => 'footer_text',
-                'value' => '© ' . date('Y') . ' WorkDo Technologies. All rights reserved. Building the future together.',
+                'value' => '© ' . date('Y') . ' Zerp Technologies. All rights reserved. Building the future together.',
                 'created_by' => $userId,
             ],
         ];
@@ -112,7 +112,7 @@ class DemoRecruitmentSettingSeeder extends Seeder
             ],
             [
                 'key' => 'need_help_email',
-                'value' => 'careers@workdo.io',
+                'value' => 'careers@zerp.pk',
                 'created_by' => $userId,
             ],
             [
@@ -141,7 +141,7 @@ class DemoRecruitmentSettingSeeder extends Seeder
             ],
             [
                 'question' => 'What should I do if I forgot my tracking ID?',
-                'answer' => 'Contact our HR team at careers@workdo.io with your full name and email address used for the application.'
+                'answer' => 'Contact our HR team at careers@zerp.pk with your full name and email address used for the application.'
             ],
             [
                 'question' => 'Can I apply for multiple positions simultaneously?',

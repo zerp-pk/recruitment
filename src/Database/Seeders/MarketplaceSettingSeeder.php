@@ -18,7 +18,7 @@ class MarketplaceSettingSeeder extends Seeder
             $files = File::files($marketplaceDir);
             foreach ($files as $file) {
                 if (in_array($file->getExtension(), ['png', 'jpg', 'jpeg', 'gif', 'webp'])) {
-                    $screenshots[] = '/packages/workdo/Recruitment/src/marketplace/' . $file->getFilename();
+                    $screenshots[] = '/packages/local/Recruitment/src/marketplace/' . $file->getFilename();
                 }
             }
         }
@@ -33,7 +33,7 @@ class MarketplaceSettingSeeder extends Seeder
                 'sections' => [
                     'hero' => [
                         'variant' => 'hero1',
-                        'title' => 'Recruitment Module for ERPGo SaaS',
+                        'title' => 'Recruitment Module for Zerp',
                         'subtitle' => 'Transform your hiring process with advanced job posting, candidate tracking, and interview management capabilities for efficient talent acquisition and enhanced recruitment outcomes.',
                         'primary_button_text' => 'Install Recruitment Module',
                         'primary_button_link' => '#install',
@@ -55,19 +55,19 @@ class MarketplaceSettingSeeder extends Seeder
                                 'title' => 'Advanced Job Management & Posting',
                                 'description' => 'Create and manage job postings with detailed requirements, skill assessments, and automated candidate screening processes for enhanced recruitment efficiency. Publish jobs across multiple platforms and track application performance with comprehensive analytics and reporting tools to optimize your hiring strategy.',
                                 'keyPoints' => ['Multi-platform job posting system', 'Automated candidate screening workflows', 'Skill assessment integration tools', 'Application performance analytics dashboard'],
-                                'screenshot' => '/packages/workdo/Recruitment/src/marketplace/image1.png'
+                                'screenshot' => '/packages/local/Recruitment/src/marketplace/image1.png'
                             ],
                             [
                                 'title' => 'Comprehensive Candidate Tracking System',
                                 'description' => 'Track candidates through every stage of the hiring pipeline with customizable workflows and automated status updates for streamlined recruitment processes. Manage candidate profiles, resumes, interview feedback, and communication history in a centralized dashboard with advanced search and filtering capabilities.',
                                 'keyPoints' => ['Pipeline stage management system', 'Candidate profile tracking dashboard', 'Interview feedback management system', 'Communication history timeline logs'],
-                                'screenshot' => '/packages/workdo/Recruitment/src/marketplace/image2.png'
+                                'screenshot' => '/packages/local/Recruitment/src/marketplace/image2.png'
                             ],
                             [
                                 'title' => 'Interview & Assessment Management',
                                 'description' => 'Schedule and conduct interviews with integrated calendar management, assessment tools, and collaborative evaluation systems for comprehensive candidate assessment. Generate detailed interview reports and maintain comprehensive candidate evaluation records for informed hiring decisions and improved recruitment outcomes.',
                                 'keyPoints' => ['Interview scheduling calendar system', 'Assessment tool integration platform', 'Collaborative evaluation management system', 'Detailed interview reporting analytics'],
-                                'screenshot' => '/packages/workdo/Recruitment/src/marketplace/image3.png'
+                                'screenshot' => '/packages/local/Recruitment/src/marketplace/image3.png'
                             ]
                         ]
                     ],

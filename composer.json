@@ -1,6 +1,6 @@
 {
     "name": "zerp/recruitment",
-    "description": "Description for recruitment package",
+    "description": "Recruitment and hiring module for the Zerp ERP platform",
     "type": "library",
     "license": "MIT",
     "require": {},
