@@ -206,6 +206,8 @@ class CandidateController extends Controller
             $candidate->tracking_id = $trackingId;
             $candidate->save();
 
+            $candidate->linkMedia(Auth::id(), creatorId());
+
             CreateCandidate::dispatch($request, $candidate);
 
             return redirect()->route('recruitment.candidates.index')->with('success', __('The candidate has been created successfully.'));
@@ -282,6 +284,8 @@ class CandidateController extends Controller
 
             $candidate->save();
 
+            $candidate->linkMedia(Auth::id(), creatorId());
+
             UpdateCandidate::dispatch($request, $candidate);
 
             return redirect()->back()->with('success', __('The candidate details are updated successfully.'));
@@ -294,17 +298,23 @@ class CandidateController extends Controller
     {
         if (Auth::user()->can('delete-candidates')) {
             // Delete profile photo file if exists
-            if ($candidate->profile_path) {
+            if ($candidate->profile_media_id && $candidate->profileMedia) {
+                \App\Services\MediaAttachmentService::deleteMedia($candidate->profileMedia);
+            } elseif ($candidate->profile_path) {
                 delete_file($candidate->profile_path);
             }
 
             // Delete resume file if exists
-            if ($candidate->resume_path) {
+            if ($candidate->resume_media_id && $candidate->resumeMedia) {
+                \App\Services\MediaAttachmentService::deleteMedia($candidate->resumeMedia);
+            } elseif ($candidate->resume_path) {
                 delete_file($candidate->resume_path);
             }
 
             // Delete cover letter file if exists
-            if ($candidate->cover_letter_path) {
+            if ($candidate->cover_letter_media_id && $candidate->coverLetterMedia) {
+                \App\Services\MediaAttachmentService::deleteMedia($candidate->coverLetterMedia);
+            } elseif ($candidate->cover_letter_path) {
                 delete_file($candidate->cover_letter_path);
             }
 

@@ -706,6 +706,8 @@ class FrontendController extends Controller
                 'creator_id' => $userId
             ]);
 
+            $candidate->linkMedia($userId, $userId);
+
             SubmitApplication::dispatch($request, $candidate);
 
             // Send Application Received email

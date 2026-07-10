@@ -36,6 +36,9 @@ class Candidate extends Model
         'profile_path',
         'resume_path',
         'cover_letter_path',
+        'profile_media_id',
+        'resume_media_id',
+        'cover_letter_media_id',
         'status',
         'application_date',
         'custom_question',
@@ -66,6 +69,58 @@ class Candidate extends Model
     public function candidate_source()
     {
         return $this->belongsTo(CandidateSources::class, 'source_id', 'id');
+    }
+
+    public function profileMedia()
+    {
+        return $this->belongsTo(\Spatie\MediaLibrary\MediaCollections\Models\Media::class, 'profile_media_id');
+    }
+
+    public function resumeMedia()
+    {
+        return $this->belongsTo(\Spatie\MediaLibrary\MediaCollections\Models\Media::class, 'resume_media_id');
+    }
+
+    public function coverLetterMedia()
+    {
+        return $this->belongsTo(\Spatie\MediaLibrary\MediaCollections\Models\Media::class, 'cover_letter_media_id');
+    }
+
+    /**
+     * Link each of this candidate's file columns to a real Media row
+     * (resolving one from a prior MediaPicker upload, or backfilling one
+     * for a file written via the upload_file() helper).
+     */
+    public function linkMedia(?int $creatorId, ?int $createdBy): void
+    {
+        $fields = [
+            'profile_path' => ['media_id' => 'profile_media_id', 'collection' => 'candidate_profiles', 'directory' => 'Candidate Profiles'],
+            'resume_path' => ['media_id' => 'resume_media_id', 'collection' => 'candidate_resumes', 'directory' => 'Candidate Resumes'],
+            'cover_letter_path' => ['media_id' => 'cover_letter_media_id', 'collection' => 'candidate_cover_letters', 'directory' => 'Candidate Cover Letters'],
+        ];
+
+        $updates = [];
+        foreach ($fields as $pathField => $config) {
+            if (!$this->$pathField) {
+                continue;
+            }
+            $media = \App\Services\MediaAttachmentService::resolveOrBackfill(
+                $this->$pathField,
+                self::class,
+                $this->id,
+                $config['collection'],
+                $creatorId,
+                $createdBy,
+                \App\Services\MediaAttachmentService::ensureDirectory($config['directory'], $createdBy, $creatorId)
+            );
+            if ($media) {
+                $updates[$config['media_id']] = $media->id;
+            }
+        }
+
+        if ($updates) {
+            $this->update($updates);
+        }
     }
 
     public function interviews()
