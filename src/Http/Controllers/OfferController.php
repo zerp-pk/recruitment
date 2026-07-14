@@ -186,7 +186,7 @@ class OfferController extends Controller
             $validated = $request->validated();
 
             // Get job_id from candidate's job application
-            $candidate = Candidate::find($validated['candidate_id']);
+            $candidate = Candidate::findOrFail($validated['candidate_id']);
 
             $offer = new Offer();
             $offer->candidate_id = $validated['candidate_id'];
@@ -223,7 +223,7 @@ class OfferController extends Controller
             $validated = $request->validated();
 
             // Get job_id from candidate's job application
-            $candidate = Candidate::find($validated['candidate_id']);
+            $candidate = Candidate::findOrFail($validated['candidate_id']);
 
             $offer->candidate_id = $validated['candidate_id'];
             $offer->job_id = $candidate->job_id;

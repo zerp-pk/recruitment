@@ -14,11 +14,11 @@ class UpdateOfferRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'candidate_id' => 'nullable|exists:candidates,id',
-            'job_id' => 'nullable|exists:job_postings,id',
+            'candidate_id' => 'nullable|exists:candidates,id,created_by,' . creatorId(),
+            'job_id' => 'nullable|exists:job_postings,id,created_by,' . creatorId(),
             'offer_date' => 'nullable',
             'position' => 'required',
-            'department_id' => 'required|exists:departments,id',
+            'department_id' => 'required|exists:departments,id,created_by,' . creatorId(),
             'salary' => 'required|min:0',
             'bonus' => 'nullable|min:0',
             'equity' => 'nullable',

@@ -22,7 +22,7 @@ class StoreInterviewFeedbackRequest extends FormRequest
             'weaknesses' => 'nullable',
             'comments' => 'nullable',
             'recommendation' => 'required',
-            'interview_id' => 'required|exists:interviews,id',
+            'interview_id' => 'required|exists:interviews,id,created_by,' . creatorId(),
             'interviewer_ids' => 'required|array|min:1',
             'interviewer_ids.*' => 'exists:users,id'
         ];

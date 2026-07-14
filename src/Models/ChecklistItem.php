@@ -2,13 +2,14 @@
 
 namespace Zerp\Recruitment\Models;
 
+use App\Models\Concerns\TenantScoped;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Zerp\Recruitment\Models\OnboardingChecklist;
 
 class ChecklistItem extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantScoped;
 
     protected $fillable = [
         'checklist_id',

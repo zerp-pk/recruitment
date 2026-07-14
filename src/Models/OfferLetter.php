@@ -2,13 +2,14 @@
 
 namespace Zerp\Recruitment\Models;
 
+use App\Models\Concerns\TenantScoped;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Auth;
 
 class OfferLetter extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantScoped;
 
     protected $fillable = [
         'lang',
@@ -108,7 +109,7 @@ class OfferLetter extends Model
         ];
 
         foreach ($defaultTemplate as $lang => $content) {
-            $offerletter = OfferLetter::where('lang', $lang)->where('created_by', $company_id)->first();
+            $offerletter = OfferLetter::withoutGlobalScope('tenant')->where('lang', $lang)->where('created_by', $company_id)->first();
             if (empty($offerletter)) {
                 OfferLetter::create([
                     'lang' => $lang,

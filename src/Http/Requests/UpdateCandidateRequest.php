@@ -40,8 +40,8 @@ class UpdateCandidateRequest extends FormRequest
             'cover_letter' => 'nullable|file|max:10240',
             'application_date' => 'required|date',
             'custom_question' => 'nullable',
-            'job_id' => 'required|numeric|exists:job_postings,id',
-            'source_id' => 'required|numeric|exists:candidate_sources,id'
+            'job_id' => 'required|numeric|exists:job_postings,id,created_by,' . creatorId(),
+            'source_id' => 'required|numeric|exists:candidate_sources,id,created_by,' . creatorId()
         ];
 
         // Add dynamic validation for custom question fields

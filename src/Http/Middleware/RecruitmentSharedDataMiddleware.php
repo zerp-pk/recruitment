@@ -8,11 +8,18 @@ use Inertia\Inertia;
 use Zerp\Recruitment\Models\RecruitmentSetting;
 use App\Models\User;
 use App\Classes\Module;
+use App\Models\Concerns\TenantScope;
 
 class RecruitmentSharedDataMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
+        // The job board is public and serves ONE company's postings, addressed by the
+        // slug in the URL — not by whoever happens to be logged in. Lift the tenant
+        // scope for this request so a visitor signed in to another company sees the
+        // board instead of an empty page. Every query here already filters by $userId.
+        TenantScope::standDownForThisRequest();
+
         $userId = $this->getUserIdFromRequest($request);
 
         $user = User::find($userId);
