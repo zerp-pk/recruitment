@@ -19,7 +19,7 @@ class StoreJobPostingRequest extends FormRequest
             'priority' => 'required|in:0,1,2',
             'job_application' => 'required|in:existing,custom',
             'application_url' => 'required_if:job_application,custom|nullable|url',
-            'branch_id' => 'required|exists:branches,id',
+            'branch_id' => 'required|exists:branches,id,created_by,' . creatorId(),
             'applicant' => 'nullable|array',
             'applicant.*' => 'string|in:gender,date_of_birth,country',
             'visibility' => 'nullable|array',
@@ -38,10 +38,10 @@ class StoreJobPostingRequest extends FormRequest
             'publish_date' => 'nullable',
             'is_featured' => 'nullable',
             'status' => 'required',
-            'job_type_id' => 'required|exists:job_types,id',
-            'location_id' => 'required|exists:job_locations,id',
+            'job_type_id' => 'required|exists:job_types,id,created_by,' . creatorId(),
+            'location_id' => 'required|exists:job_locations,id,created_by,' . creatorId(),
             'custom_questions' => 'nullable|array',
-            'custom_questions.*' => 'integer|exists:custom_questions,id',
+            'custom_questions.*' => 'integer|exists:custom_questions,id,created_by,' . creatorId(),
             'skills' => 'required|array',
             'skills.*' => 'string|max:50'
         ];

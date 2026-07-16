@@ -18,7 +18,7 @@ class UpdateInterviewRoundRequest extends FormRequest
             'sequence_number' => 'required|min:1',
             'description' => 'nullable',
             'status' => 'required',
-            'job_id' => 'required|exists:job_postings,id'
+            'job_id' => 'required|exists:job_postings,id,created_by,' . creatorId()
         ];
     }
 }

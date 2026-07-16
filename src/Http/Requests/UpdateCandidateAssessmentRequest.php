@@ -14,7 +14,7 @@ class UpdateCandidateAssessmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'candidate_id' => 'required|exists:candidates,id',
+            'candidate_id' => 'required|exists:candidates,id,created_by,' . creatorId(),
             'assessment_name' => 'required|string|max:255',
             'score' => 'nullable|integer|min:0',
             'max_score' => 'nullable|integer|min:1',

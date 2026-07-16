@@ -14,9 +14,9 @@ class UpdateInterviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'candidate_id' => 'required|exists:candidates,id',
-            'round_id' => 'required|exists:interview_rounds,id',
-            'interview_type_id' => 'required|exists:interview_types,id',
+            'candidate_id' => 'required|exists:candidates,id,created_by,' . creatorId(),
+            'round_id' => 'required|exists:interview_rounds,id,created_by,' . creatorId(),
+            'interview_type_id' => 'required|exists:interview_types,id,created_by,' . creatorId(),
             'scheduled_date' => 'required|date|after_or_equal:today',
             'scheduled_time' => 'required',
             'duration' => 'required|integer|min:1',

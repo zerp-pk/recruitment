@@ -2,6 +2,7 @@
 
 namespace Zerp\Recruitment\Models;
 
+use App\Models\Concerns\TenantScoped;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Zerp\Recruitment\Models\JobPosting;
@@ -11,7 +12,7 @@ use Zerp\Recruitment\Models\CandidateAssessment;
 
 class Candidate extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantScoped;
 
     protected $fillable = [
         'first_name',

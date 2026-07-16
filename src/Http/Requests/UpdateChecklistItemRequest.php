@@ -14,7 +14,7 @@ class UpdateChecklistItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'checklist_id' => 'required|exists:onboarding_checklists,id',
+            'checklist_id' => 'required|exists:onboarding_checklists,id,created_by,' . creatorId(),
             'task_name' => 'required|max:255',
             'description' => 'nullable',
             'category' => 'required|string|max:100',
