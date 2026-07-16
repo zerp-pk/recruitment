@@ -15,7 +15,7 @@ class RecruitmentSharedDataMiddleware
     public function handle(Request $request, Closure $next)
     {
         // The job board is public and serves ONE company's postings, addressed by the
-        // slug in the URL — not by whoever happens to be logged in. Lift the tenant
+        // slug in the URL - not by whoever happens to be logged in. Lift the tenant
         // scope for this request so a visitor signed in to another company sees the
         // board instead of an empty page. Every query here already filters by $userId.
         TenantScope::standDownForThisRequest();
