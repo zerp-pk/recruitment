@@ -13,6 +13,20 @@ class RecruitmentServiceProvider extends ServiceProvider
         if (file_exists($routesPath)) {
             $this->loadRoutesFrom($routesPath);
         }
+
+        $apiRoutesPath = __DIR__.'/../Routes/api.php';
+        if (file_exists($apiRoutesPath)) {
+            $this->loadRoutesFrom($apiRoutesPath);
+        }
+
+        // Scoped Swagger/OpenAPI docs for this module at /docs/recruitment.
+        if (class_exists(\Dedoc\Scramble\Scramble::class)) {
+            \Dedoc\Scramble\Scramble::registerApi('recruitment', [
+                'api_path' => 'api/recruitment',
+                'info' => ['version' => \Composer\InstalledVersions::getPrettyVersion('zerp/recruitment') ?? '1.0.0', 'description' => 'Zerp Recruitment module REST API for mobile and third-party clients.'],
+                'ui' => ['title' => 'Zerp Recruitment API'],
+            ])->expose(ui: '/docs/recruitment', document: '/docs/recruitment.json');
+        }
         
         $migrationsPath = __DIR__.'/../Database/Migrations';
         if (is_dir($migrationsPath)) {
