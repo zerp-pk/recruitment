@@ -3,11 +3,24 @@
     "description": "Recruitment and hiring module for the Zerp ERP platform",
     "type": "library",
     "license": "MIT",
-    "require": {},
+    "require": {
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0 || ^10.0"
+    },
     "autoload": {
         "psr-4": {
             "Zerp\\Recruitment\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Zerp\\Recruitment\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
     },
     "authors": [
         {
