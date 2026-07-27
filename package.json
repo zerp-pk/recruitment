@@ -1,0 +1,18 @@
+{
+  "name": "@zerp/recruitment",
+  "version": "5.0.0",
+  "description": "Recruitment and hiring module for the Zerp ERP platform",
+  "license": "MIT",
+  "private": true,
+  "peerDependencies": {
+    "@inertiajs/react": "^1.0.0",
+    "axios": "^1.6.4",
+    "html2pdf.js": "^0.14.0",
+    "i18next": "^25.3.6",
+    "lucide-react": "^0.378.0",
+    "qrcode": "^1.5.4",
+    "react": "^18.2.0",
+    "react-i18next": "^15.6.1",
+    "sonner": "^2.0.7"
+  }
+}
