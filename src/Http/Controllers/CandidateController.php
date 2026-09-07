@@ -48,11 +48,15 @@ class CandidateController extends Controller
                 ->when(request('application_date'), fn($q) => $q->whereDate('application_date', request('application_date')))
                 ->when(request('sort'), function($q) {
                     $sort = request('sort');
-                    $direction = request('direction', 'asc');
+                    // Laravel throws on a direction that is not asc/desc, so it is
+                    // normalised here rather than left to 500 the join branches.
+                    $direction = in_array(strtolower((string) request('direction')), ['asc', 'desc'], true)
+                        ? strtolower(request('direction'))
+                        : 'asc';
                     if ($sort === 'name') {
                         return $q->orderBy('first_name', $direction)->orderBy('last_name', $direction);
                     }
-                    return $q->orderBy($sort, $direction);
+                    return $q->sortSafe($sort, $direction, 'created_at', 'desc');
                 }, fn($q) => $q->latest())
                 ->paginate(request('per_page', 10))
                 ->withQueryString();

@@ -65,15 +65,22 @@ class InterviewFeedbackController extends Controller
                 ->when(request('recommendation') !== null && request('recommendation') !== '', fn($q) => $q->where('interview_feedbacks.recommendation', request('recommendation')));
 
             $sort = request('sort');
+            // orderByRaw below concatenates the direction straight into the SQL, and
+            // unlike orderBy nothing in the framework checks it, so it has to be
+            // whitelisted here before it is used anywhere in this block.
+            $direction = in_array(strtolower((string) request('direction')), ['asc', 'desc'], true)
+                ? strtolower(request('direction'))
+                : 'asc';
+
             if ($sort === 'candidate') {
                 $query->join('interviews', 'interview_feedbacks.interview_id', '=', 'interviews.id')
                       ->join('candidates', 'interviews.candidate_id', '=', 'candidates.id')
                       ->select('interview_feedbacks.*')
-                      ->orderByRaw("CONCAT(candidates.first_name, ' ', candidates.last_name) " . request('direction', 'asc'));
+                      ->orderByRaw("CONCAT(candidates.first_name, ' ', candidates.last_name) " . $direction);
             } elseif ($sort === 'interviewer_names') {
-                $query->orderBy('interviewer_ids', request('direction', 'asc'));
+                $query->orderBy('interviewer_ids', $direction);
             } elseif ($sort) {
-                $query->orderBy($sort, request('direction', 'asc'));
+                $query->sortSafe($sort, $direction, 'created_at', 'desc');
             } else {
                 $query->latest();
             }

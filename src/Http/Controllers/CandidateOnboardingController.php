@@ -61,7 +61,11 @@ class CandidateOnboardingController extends Controller
                 ->when(request('start_date_to'), fn($q) => $q->where('candidate_onboardings.start_date', '<=', request('start_date_to')))
                 ->when(request('sort'), function($q) {
                     $sortField = request('sort');
-                    $direction = request('direction', 'asc');
+                    // Laravel throws on a direction that is not asc/desc, so it is
+                    // normalised here rather than left to 500 the join branches.
+                    $direction = in_array(strtolower((string) request('direction')), ['asc', 'desc'], true)
+                        ? strtolower(request('direction'))
+                        : 'asc';
 
                     switch($sortField) {
                         case 'candidate.name':
@@ -76,7 +80,7 @@ class CandidateOnboardingController extends Controller
                               ->select('candidate_onboardings.*');
                             break;
                         default:
-                            $q->orderBy($sortField, $direction);
+                            $q->sortSafe($sortField, $direction, 'created_at', 'desc');
                             break;
                     }
                 }, fn($q) => $q->latest())

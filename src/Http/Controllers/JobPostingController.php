@@ -7,6 +7,7 @@ use Zerp\Recruitment\Http\Requests\StoreJobPostingRequest;
 use Zerp\Recruitment\Http\Requests\UpdateJobPostingRequest;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
 use Zerp\Hrm\Models\Branch;
 use Zerp\Hrm\Models\Department;
@@ -52,7 +53,11 @@ class JobPostingController extends Controller
                 ->when(request('status') && request('status') !== 'all', fn($q) => $q->where('status', request('status')))
                 ->when(request('sort'), function($q) {
                     $sort = request('sort');
-                    $direction = request('direction', 'asc');
+                    // Laravel throws on a direction that is not asc/desc, so it is
+                    // normalised here rather than left to 500 the join branches.
+                    $direction = in_array(strtolower((string) request('direction')), ['asc', 'desc'], true)
+                        ? strtolower(request('direction'))
+                        : 'asc';
 
                     if ($sort === 'branch_name') {
                         $q->orderBy('branches.branch_name', $direction);
@@ -62,7 +67,11 @@ class JobPostingController extends Controller
                     } elseif ($sort === 'application_deadline') {
                         $q->orderBy('job_postings.application_deadline', $direction);
                     } else {
-                        $q->orderBy('job_postings.' . $sort, $direction);
+                        // Kept prefixed rather than routed through sortSafe: this query
+                        // joins branches, so an unqualified column could be ambiguous.
+                        // Whitelisted against the base table before it is prefixed.
+                        $column = Schema::hasColumn('job_postings', $sort) ? $sort : 'created_at';
+                        $q->orderBy('job_postings.' . $column, $direction);
                     }
                 }, fn($q) => $q->latest())
                 ->paginate(request('per_page', 10))
