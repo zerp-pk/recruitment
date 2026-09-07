@@ -76,7 +76,11 @@ class InterviewController extends Controller
                 ->when(request('interview_type_id') && request('interview_type_id') !== 'all', fn($q) => $q->where('interviews.interview_type_id', request('interview_type_id')))
                 ->when(request('sort'), function ($q) {
                     $sort = request('sort');
-                    $direction = request('direction', 'asc');
+                    // Laravel throws on a direction that is not asc/desc, so it is
+                    // normalised here rather than left to 500 the join branches.
+                    $direction = in_array(strtolower((string) request('direction')), ['asc', 'desc'], true)
+                        ? strtolower(request('direction'))
+                        : 'asc';
 
                     switch ($sort) {
                         case 'candidate_name':
@@ -98,7 +102,7 @@ class InterviewController extends Controller
                             $q->select('interviews.*')->orderBy('interviews.scheduled_date', $direction);
                             break;
                         default:
-                            $q->select('interviews.*')->orderBy('interviews.' . $sort, $direction);
+                            $q->select('interviews.*')->sortSafe($sort, $direction, 'created_at', 'desc');
                     }
                 }, fn($q) => $q->select('interviews.*')->latest())
                 ->paginate(request('per_page', 10))

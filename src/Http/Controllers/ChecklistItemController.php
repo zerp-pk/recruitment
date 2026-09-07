@@ -45,10 +45,10 @@ class ChecklistItemController extends Controller
                 ->when(request('sort'), function($q) {
                     if (request('sort') === 'checklist.name') {
                         return $q->join('onboarding_checklists', 'checklist_items.checklist_id', '=', 'onboarding_checklists.id')
-                                 ->orderBy('onboarding_checklists.name', request('direction', 'asc'))
+                                 ->orderBy('onboarding_checklists.name', in_array(strtolower((string) request('direction')), ['asc', 'desc'], true) ? strtolower(request('direction')) : 'asc')
                                  ->select('checklist_items.*');
                     }
-                    return $q->orderBy(request('sort'), request('direction', 'asc'));
+                    return $q->sortSafe(request('sort'), request('direction'), 'created_at', 'desc');
                 }, fn($q) => $q->latest())
                 ->paginate(request('per_page', 10))
                 ->withQueryString();

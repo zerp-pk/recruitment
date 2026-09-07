@@ -37,7 +37,7 @@ class CustomQuestionController extends Controller
                 ->when(request('type') !== null && request('type') !== '', fn($q) => $q->where('type', request('type')))
                 ->when(request('is_active') !== null && request('is_active') !== '', fn($q) => $q->where('is_active', request('is_active')))
                 ->when(request('is_required') !== null && request('is_required') !== '', fn($q) => $q->where('is_required', request('is_required')))
-                ->when(request('sort'), fn($q) => $q->orderBy(request('sort'), request('direction', 'asc')), fn($q) => $q->latest())
+                ->when(request('sort'), fn($q) => $q->sortSafe(request('sort'), request('direction'), 'created_at', 'desc'), fn($q) => $q->latest())
                 ->paginate(request('per_page', 10))
                 ->withQueryString();
 

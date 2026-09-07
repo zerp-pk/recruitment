@@ -38,15 +38,20 @@ class InterviewRoundController extends Controller
                 ->when(request('status') !== null && request('status') !== '', fn($q) => $q->where('interview_rounds.status', request('status')));
 
             // Handle sorting
+            // Laravel throws on a direction that is not asc/desc, so it is normalised
+            // once here rather than left to 500 whichever branch runs.
+            $direction = in_array(strtolower((string) request('direction')), ['asc', 'desc'], true)
+                ? strtolower(request('direction'))
+                : 'asc';
+
             if (request('sort') === 'job_posting.title') {
-                $direction = request('direction', 'asc');
                 $query->join('job_postings', 'interview_rounds.job_id', '=', 'job_postings.id')
                     ->orderBy('job_postings.title', $direction)
                     ->select('interview_rounds.*');
             } elseif (request('sort') === 'sequence_number') {
-                $query->orderBy('interview_rounds.sequence_number', request('direction', 'asc'));
+                $query->orderBy('interview_rounds.sequence_number', $direction);
             } elseif (request('sort')) {
-                $query->orderBy('interview_rounds.' . request('sort'), request('direction', 'asc'));
+                $query->sortSafe(request('sort'), $direction, 'created_at', 'desc');
             } else {
                 $query->latest('interview_rounds.created_at');
             }
